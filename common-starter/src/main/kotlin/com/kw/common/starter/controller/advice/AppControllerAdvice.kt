@@ -41,6 +41,9 @@ class AppControllerAdvice {
             MissingServletRequestParameterException::class,
             MethodArgumentTypeMismatchException::class,
             InvalidFormatException::class,
+
+            IllegalArgumentException::class,
+            IllegalStateException::class,
         ]
     )
     fun handleInvalidRequest(ex: Exception): ResponseEntity<AppResponse<Void>> {
@@ -48,9 +51,11 @@ class AppControllerAdvice {
 
         val description: String? = when (ex) {
             is MethodArgumentNotValidException -> {
-                ex.fieldError.let { "${it?.field?.toSnakeCase()} - ${it?.defaultMessage}" }
+                ex.fieldError?.let { "${it.field.toSnakeCase()} - ${it.defaultMessage}" } ?: ex.message
             }
             is HttpMessageNotReadableException -> "Invalid Request Format"
+            is IllegalArgumentException,
+            is IllegalStateException -> ex.message
 
             else -> null
         }
@@ -76,7 +81,7 @@ class AppControllerAdvice {
         status: ExceptionStatus,
         description: String? = null,
     ): ResponseEntity<AppResponse<Void>> {
-        val code = "${applicationCode.toUpperCase()}${status.code}"
+        val code = "${applicationCode.uppercase()}${status.code}"
         val appResponse: AppResponse<Void> = AppResponse.fromCustomStatus(
             code = code,
             message = status.message,
