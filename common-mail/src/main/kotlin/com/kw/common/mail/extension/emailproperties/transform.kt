@@ -1,4 +1,4 @@
-package com.kw.common.mail.extension
+package com.kw.common.mail.extension.emailproperties
 
 import com.kw.common.mail.config.properties.EmailProperties
 import com.kw.common.mail.dto.notification.EmailNotificationRequest

@@ -4,7 +4,7 @@ import com.jcraft.jsch.ChannelSftp
 import com.jcraft.jsch.SftpException
 import com.kw.common.sftp.config.properties.SftpProperties
 import com.kw.common.sftp.dto.SftpRequest
-import com.kw.common.sftp.extension.close
+import com.kw.common.sftp.extension.channelsftp.close
 import com.kw.common.sftp.manager.SftpConnectionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.joinAll

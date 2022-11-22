@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.kw.common.starter.constant.AppStatus
 import com.kw.common.starter.dto.AppResponse
 import com.kw.common.starter.exception.AppException
-import com.kw.common.starter.extension.toSnakeCase
+import com.kw.common.starter.extension.string.toSnakeCase
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -41,7 +41,6 @@ class AppControllerAdvice {
             MissingServletRequestParameterException::class,
             MethodArgumentTypeMismatchException::class,
             InvalidFormatException::class,
-
             IllegalArgumentException::class,
             IllegalStateException::class,
         ]

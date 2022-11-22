@@ -1,4 +1,4 @@
-package com.kw.common.sftp.extension
+package com.kw.common.sftp.extension.channelsftp
 
 import com.jcraft.jsch.ChannelSftp
 import com.jcraft.jsch.JSchException

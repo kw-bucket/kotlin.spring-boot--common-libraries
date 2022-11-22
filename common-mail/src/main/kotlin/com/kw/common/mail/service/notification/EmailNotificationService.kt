@@ -1,11 +1,11 @@
 package com.kw.common.mail.service.notification
 
-import com.kw.common.starter.manager.ThreadPoolManager
-import com.kw.common.starter.service.api.ApiOutcome
-import com.kw.common.starter.service.api.peekAppStatus
-import com.kw.common.starter.service.api.peekError
 import com.kw.common.mail.dto.notification.EmailNotificationRequest
 import com.kw.common.mail.service.api.NotificationApiService
+import com.kw.common.starter.extension.apioutcome.peekAppStatus
+import com.kw.common.starter.extension.apioutcome.peekError
+import com.kw.common.starter.manager.ThreadPoolManager
+import com.kw.common.starter.service.api.ApiOutcome
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
