@@ -14,7 +14,7 @@
 
     <groupId>com.kw</groupId>
     <artifactId>spring-boot-kotlin--common-mail</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>spring-boot-kotlin--common-mail</name>
     <description>Common Mail Library</description>
 
@@ -23,7 +23,7 @@
         <ktlint-maven-plugin.version>1.12.1</ktlint-maven-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
 
-        <common-starter.version>1.2.0-SNAPSHOT</common-starter.version>
+        <common-starter.version>1.0.0-SNAPSHOT</common-starter.version>
     </properties>
 
     <dependencies>
