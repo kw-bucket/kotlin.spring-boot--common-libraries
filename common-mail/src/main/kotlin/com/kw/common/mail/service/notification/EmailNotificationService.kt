@@ -5,7 +5,7 @@ import com.kw.common.mail.service.api.NotificationApiService
 import com.kw.common.starter.extension.apioutcome.peekAppStatus
 import com.kw.common.starter.extension.apioutcome.peekError
 import com.kw.common.starter.manager.ThreadPoolManager
-import com.kw.common.starter.service.api.ApiOutcome
+import com.kw.common.starter.service.api.ApiResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -22,9 +22,9 @@ class EmailNotificationService(private val notificationApiService: NotificationA
 
         pool.execute {
             val result = when (val response = callEmailNotificationApi(request)) {
-                is ApiOutcome.Success,
-                is ApiOutcome.Failure -> response.peekAppStatus()
-                is ApiOutcome.Error -> response.peekError()
+                is ApiResponse.Success,
+                is ApiResponse.Failure -> response.peekAppStatus()
+                is ApiResponse.Error -> response.peekError()
             }
 
             logger.info("Send asynchronous email notification - Subject[{}] - Result[{}]", request.subject, result)

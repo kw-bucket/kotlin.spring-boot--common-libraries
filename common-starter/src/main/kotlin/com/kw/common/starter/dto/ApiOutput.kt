@@ -3,25 +3,25 @@ package com.kw.common.starter.dto
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
-import com.kw.common.starter.constant.AppStatus
+import com.kw.common.starter.constant.ApiOutputStatus
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-data class AppResponse<D>(
+data class ApiOutput<D>(
     val status: Status,
     val data: D? = null,
 ) {
     companion object {
-        fun <T> fromAppStatus(
-            appStatus: AppStatus,
+        fun <T> fromStatus(
+            apiOutputStatus: ApiOutputStatus,
             description: String? = null,
             data: T? = null,
-        ): AppResponse<T> =
-            AppResponse(
+        ): ApiOutput<T> =
+            ApiOutput(
                 status = Status(
-                    code = appStatus.code,
-                    message = appStatus.message,
-                    description = description ?: appStatus.description,
+                    code = apiOutputStatus.code,
+                    message = apiOutputStatus.message,
+                    description = description ?: apiOutputStatus.description,
                 ),
                 data = data,
             )
@@ -31,8 +31,8 @@ data class AppResponse<D>(
             message: String,
             description: String? = null,
             data: T? = null,
-        ): AppResponse<T> =
-            AppResponse(
+        ): ApiOutput<T> =
+            ApiOutput(
                 status = Status(code = code, message = message, description = description),
                 data = data,
             )

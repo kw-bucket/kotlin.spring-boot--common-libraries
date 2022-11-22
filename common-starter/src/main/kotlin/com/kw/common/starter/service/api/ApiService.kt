@@ -30,18 +30,18 @@ open class ApiService(private val restTemplate: RestTemplate) {
         uriComponents: UriComponents,
         httpEntity: HttpEntity<Any>?,
         responseType: ParameterizedTypeReference<T>,
-    ): ApiOutcome<T> =
+    ): ApiResponse<T> =
         try {
             val response = call(httpMethod, uriComponents, httpEntity, responseType)
 
             if (response.statusCode.is2xxSuccessful) {
-                ApiOutcome.Success(
+                ApiResponse.Success(
                     httpStatus = response.statusCode,
                     httpHeaders = response.headers,
                     body = response.body,
                 )
             } else {
-                ApiOutcome.Failure(
+                ApiResponse.Failure(
                     httpStatus = response.statusCode,
                     httpHeaders = response.headers,
                     body = response.body,
@@ -50,7 +50,7 @@ open class ApiService(private val restTemplate: RestTemplate) {
         } catch (ex: HttpStatusCodeException) {
             logger.error(ex.message)
 
-            ApiOutcome.Error(
+            ApiResponse.Error(
                 httpStatus = ex.statusCode,
                 httpHeaders = ex.responseHeaders,
                 bodyAsString = ex.responseBodyAsString,
@@ -71,7 +71,7 @@ open class ApiService(private val restTemplate: RestTemplate) {
                 else -> Pair(HttpStatus.INTERNAL_SERVER_ERROR, ex)
             }
 
-            ApiOutcome.Error(httpStatus = httpStatus, cause = cause)
+            ApiResponse.Error(httpStatus = httpStatus, cause = cause)
         }
 
     @Throws(

@@ -3,7 +3,7 @@ package com.kw.common.starter.service.api
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 
-sealed class ApiOutcome<out T> {
+sealed class ApiResponse<out T> {
     abstract val httpStatus: HttpStatus
     abstract val httpHeaders: HttpHeaders?
     abstract val body: T?
@@ -12,13 +12,13 @@ sealed class ApiOutcome<out T> {
         override val httpStatus: HttpStatus,
         override val httpHeaders: HttpHeaders? = null,
         override val body: T? = null,
-    ) : ApiOutcome<T>()
+    ) : ApiResponse<T>()
 
     data class Failure<out T> (
         override val httpStatus: HttpStatus,
         override val httpHeaders: HttpHeaders? = null,
         override val body: T? = null,
-    ) : ApiOutcome<T>()
+    ) : ApiResponse<T>()
 
     data class Error(
         override val httpStatus: HttpStatus,
@@ -27,5 +27,5 @@ sealed class ApiOutcome<out T> {
 
         val bodyAsString: String? = null,
         val cause: Throwable? = null,
-    ) : ApiOutcome<Nothing>()
+    ) : ApiResponse<Nothing>()
 }

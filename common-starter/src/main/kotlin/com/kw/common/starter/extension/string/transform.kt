@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.kw.common.starter.service.api.ApiOutcome
+import com.kw.common.starter.service.api.ApiResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -43,19 +43,19 @@ fun String.asResource() = {}::class.java.getResource(this)?.readText() ?: "read 
 /**
  * Parse string (especially json) into a nullable object as body of ApiOutcome.Success
  */
-inline fun <reified T : Any> String.asApiOutcomeSuccess(): ApiOutcome.Success<T> =
-    this.parseOrNull<T>().let { ApiOutcome.Success(httpStatus = HttpStatus.OK, httpHeaders = null, body = it) }
+inline fun <reified T : Any> String.asApiOutcomeSuccess(): ApiResponse.Success<T> =
+    this.parseOrNull<T>().let { ApiResponse.Success(httpStatus = HttpStatus.OK, httpHeaders = null, body = it) }
 
 /**
  * Parse string (especially json) into a nullable object as body of ApiOutcome.Failure
  */
 inline fun <reified T : Any> String.asApiOutcomeFailure(
     httpStatus: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
-): ApiOutcome.Failure<T> =
-    this.parseOrNull<T>().let { ApiOutcome.Failure(httpStatus = httpStatus, httpHeaders = null, body = it) }
+): ApiResponse.Failure<T> =
+    this.parseOrNull<T>().let { ApiResponse.Failure(httpStatus = httpStatus, httpHeaders = null, body = it) }
 
 /**
  * Parse string (especially json) into a nullable object as bodyAsString of ApiOutcome.Error
  */
-fun String.asApiOutcomeError(httpStatus: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR): ApiOutcome.Error =
-    ApiOutcome.Error(httpStatus = httpStatus, httpHeaders = null, bodyAsString = this)
+fun String.asApiOutcomeError(httpStatus: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR): ApiResponse.Error =
+    ApiResponse.Error(httpStatus = httpStatus, httpHeaders = null, bodyAsString = this)

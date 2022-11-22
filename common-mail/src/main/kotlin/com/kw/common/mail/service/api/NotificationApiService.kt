@@ -3,8 +3,8 @@ package com.kw.common.mail.service.api
 import com.kw.common.mail.dto.notification.EmailNotificationRequest
 import com.kw.common.mail.extension.emailnotificationrequest.asMap
 import com.kw.common.starter.constant.Constant
-import com.kw.common.starter.dto.AppResponse
-import com.kw.common.starter.service.api.ApiOutcome
+import com.kw.common.starter.dto.ApiOutput
+import com.kw.common.starter.service.api.ApiResponse
 import com.kw.common.starter.service.api.ApiService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -28,14 +28,14 @@ class NotificationApiService(restTemplate: RestTemplate) : ApiService(restTempla
     @Value("\${api.notification.endpoints.send-email}")
     private val sendEmailUrl: String = "send-email"
 
-    fun sendEmail(request: EmailNotificationRequest): ApiOutcome<AppResponse<Void>> {
+    fun sendEmail(request: EmailNotificationRequest): ApiResponse<ApiOutput<Nothing>> {
         val headers = HttpHeaders()
         headers.contentType = MediaType.MULTIPART_FORM_DATA
         headers.set(Constant.Headers.CORRELATIONID, MDC.get(Constant.Context.CORRELATION_ID))
         headers.set(Constant.Headers.X_CORRELATION_ID, MDC.get(Constant.Context.CORRELATION_ID))
 
         val uriComponents: UriComponents = UriComponentsBuilder.fromHttpUrl(sendEmailUrl).build()
-        val responseType = object : ParameterizedTypeReference<AppResponse<Void>>() {}
+        val responseType = object : ParameterizedTypeReference<ApiOutput<Nothing>>() {}
         val arguments = request.asMap()
 
         logger.debug(
