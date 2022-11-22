@@ -1,11 +1,11 @@
 package com.kw.common.mail.service.api
 
+import com.kw.common.mail.dto.notification.EmailNotificationRequest
+import com.kw.common.mail.extension.emailnotificationrequest.asMap
 import com.kw.common.starter.constant.Constant
 import com.kw.common.starter.dto.AppResponse
 import com.kw.common.starter.service.api.ApiOutcome
 import com.kw.common.starter.service.api.ApiService
-import com.kw.common.mail.dto.notification.EmailNotificationRequest
-import com.kw.common.mail.dto.notification.asMap
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.slf4j.MDC
