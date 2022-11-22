@@ -3,7 +3,7 @@ package com.kw.common.starter.extension.apioutcome
 import com.kw.common.starter.dto.ApiOutput
 import com.kw.common.starter.service.api.ApiResponse
 
-fun <T> ApiResponse<ApiOutput<T>>.peekAppStatus(): String {
+fun <T> ApiResponse<ApiOutput<T>>.peekOutputStatus(): String {
     val code = this.body?.status?.code ?: this.httpStatus.value()
     val description = this.body?.status?.description ?: this.httpStatus.reasonPhrase
 
