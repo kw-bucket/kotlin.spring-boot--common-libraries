@@ -1,6 +1,6 @@
 package com.kw.common.starter.config.properties
 
-data class ThreadPoolProperties(
+data class ThreadPoolProperty(
     val threadNamePrefix: String = "Thd-",
     val keepAliveTimeSec: Int = 0,
     val capacity: Int = Int.MAX_VALUE,

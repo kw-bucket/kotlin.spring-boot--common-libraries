@@ -1,8 +1,8 @@
 package com.kw.common.starter.controller.advice
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
-import com.kw.common.starter.constant.AppStatus
-import com.kw.common.starter.dto.AppResponse
+import com.kw.common.starter.constant.ApiOutputStatus
+import com.kw.common.starter.dto.ApiOutput
 import com.kw.common.starter.exception.AppException
 import com.kw.common.starter.extension.toSnakeCase
 import org.slf4j.Logger
@@ -19,20 +19,20 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 @ControllerAdvice
 class AppControllerAdvice {
-
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    @Value("\${common.application-code:APP}")
+    @Value("\${starter.application-code:APP}")
     private val applicationCode: String = "APP"
 
     @ExceptionHandler(Exception::class)
-    fun handleException(ex: Exception): ResponseEntity<AppResponse<Void>> =
+    fun handleException(ex: Exception): ResponseEntity<ApiOutput<Nothing>> =
         buildResponse(
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
             status = ExceptionStatus.E5000,
             description = ex.message,
-        )
-            .also { logger.error("Exception: {}", ex.stackTraceToString()) }
+        ).also {
+            logger.error("Exception: {}", ex.stackTraceToString())
+        }
 
     @ExceptionHandler(
         value = [
@@ -41,54 +41,54 @@ class AppControllerAdvice {
             MissingServletRequestParameterException::class,
             MethodArgumentTypeMismatchException::class,
             InvalidFormatException::class,
-
             IllegalArgumentException::class,
             IllegalStateException::class,
-        ]
+        ],
     )
-    fun handleInvalidRequest(ex: Exception): ResponseEntity<AppResponse<Void>> {
+    fun handleInvalidRequest(ex: Exception): ResponseEntity<ApiOutput<Nothing>> {
         logger.error("Invalid Request: {}", ex.localizedMessage)
 
-        val description: String? = when (ex) {
-            is MethodArgumentNotValidException -> {
-                ex.fieldError?.let { "${it.field.toSnakeCase()} - ${it.defaultMessage}" } ?: ex.message
-            }
-            is HttpMessageNotReadableException -> "Invalid Request Format"
-            is IllegalArgumentException,
-            is IllegalStateException -> ex.message
+        val description: String? =
+            when (ex) {
+                is MethodArgumentNotValidException -> {
+                    ex.fieldError.let { "${it?.field?.toSnakeCase()} - ${it?.defaultMessage}" }
+                }
+                is HttpMessageNotReadableException -> "Invalid Request Format"
+                is IllegalArgumentException,
+                is IllegalStateException,
+                -> ex.message
 
-            else -> null
-        }
+                else -> null
+            }
 
         return buildResponse(HttpStatus.BAD_REQUEST, ExceptionStatus.E4000, description)
     }
 
     @ExceptionHandler(AppException::class)
-    fun handleAppException(ex: AppException): ResponseEntity<AppResponse<Void>> =
-        buildResponse(ex.httpStatus, ex.appStatus, ex.description)
+    fun handleAppException(ex: AppException): ResponseEntity<ApiOutput<Nothing>> =
+        buildResponse(ex.httpStatus, ex.apiOutputStatus, ex.description)
 
     private fun buildResponse(
         httpStatus: HttpStatus,
-        status: AppStatus,
+        status: ApiOutputStatus,
         description: String? = null,
-    ): ResponseEntity<AppResponse<Void>> =
-        AppResponse
-            .fromAppStatus<Void>(status, description)
-            .let { ResponseEntity.status(httpStatus).body(it) }
+    ): ResponseEntity<ApiOutput<Nothing>> =
+        ApiOutput.fromStatus<Nothing>(status, description).let { ResponseEntity.status(httpStatus).body(it) }
 
     private fun buildResponse(
         httpStatus: HttpStatus,
         status: ExceptionStatus,
         description: String? = null,
-    ): ResponseEntity<AppResponse<Void>> {
-        val code = "${applicationCode.uppercase()}${status.code}"
-        val appResponse: AppResponse<Void> = AppResponse.fromCustomStatus(
-            code = code,
-            message = status.message,
-            description = description ?: status.description,
-        )
+    ): ResponseEntity<ApiOutput<Nothing>> {
+        val code = "$applicationCode${status.code}"
+        val apiOutput: ApiOutput<Nothing> =
+            ApiOutput.fromCustomStatus(
+                code = code,
+                message = status.message,
+                description = description ?: status.description,
+            )
 
-        return ResponseEntity.status(httpStatus).body(appResponse)
+        return ResponseEntity.status(httpStatus).body(apiOutput)
     }
 }
 
@@ -96,7 +96,7 @@ private enum class ExceptionStatus(
     override val code: String,
     override val message: String,
     override val description: String,
-) : AppStatus {
+) : ApiOutputStatus {
     E4000("4000", "Bad Request", "Bad Request"),
     E5000("5000", "Internal Server Error", "Internal Server Error"),
 }
