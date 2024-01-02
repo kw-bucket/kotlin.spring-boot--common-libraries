@@ -25,7 +25,9 @@ class HttpRequestWrapper(request: HttpServletRequest) : HttpServletRequestWrappe
     }
 
     override fun getHeaderNames(): Enumeration<String> =
-        Collections.enumeration(super.getHeaderNames().toList() + customHeaders.keys)
+        Collections.enumeration(
+            super.getHeaderNames().toList() + customHeaders.keys,
+        )
 
     override fun getHeaders(name: String?): Enumeration<String> {
         val headerName: String? = name?.lowercase()

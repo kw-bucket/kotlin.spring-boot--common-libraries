@@ -52,7 +52,9 @@ inline fun <reified T : Any> String.asApiResponseSuccess(): ApiResponse.Success<
 inline fun <reified T : Any> String.asApiResponseFailure(
     httpStatus: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
 ): ApiResponse.Failure<T> =
-    this.parseOrNull<T>().let { ApiResponse.Failure(httpStatus = httpStatus, httpHeaders = null, body = it) }
+    this.parseOrNull<T>().let {
+        ApiResponse.Failure(httpStatus = httpStatus, httpHeaders = null, body = it)
+    }
 
 /**
  * Parse json string into a nullable object as bodyAsString of ApiResponse.Error
