@@ -1,10 +1,10 @@
 package com.kw.common.starter.config
 
-import org.apache.http.client.HttpClient
-import org.apache.http.client.config.RequestConfig
-import org.apache.http.impl.client.CloseableHttpClient
-import org.apache.http.impl.client.HttpClientBuilder
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager
+import org.apache.hc.client5.http.classic.HttpClient
+import org.apache.hc.client5.http.config.RequestConfig
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -12,22 +12,22 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.web.client.RestTemplate
+import java.util.concurrent.TimeUnit
 
 @Configuration
 class RestTemplateConfig {
-
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    @Value("\${common.rest-template.connection-request-timeout:30000}")
-    private val connectionRequestTimeout: Int = 30_000
-    @Value("\${common.rest-template.connect-timeout:30000}")
-    private val connectTimeout: Int = 30_000
-    @Value("\${common.rest-template.socket-timeout:30000}")
-    private val socketTimeout: Int = 30_000
+    @Value("\${starter.http-client.connection-request-timeout-sec:30}")
+    private val connectionRequestTimeoutSec: Long = 30
 
-    @Value("\${common.rest-template.pooling.connection-limit:100}")
+    @Value("\${starter.http-client.response-timeout-sec:30}")
+    private val responseTimeoutSec: Long = 30
+
+    @Value("\${starter.http-client.pooling.connection-limit:100}")
     private val connectionLimit: Int = 100
-    @Value("\${common.rest-template.pooling.max-connection-per-route:50}")
+
+    @Value("\${starter.http-client.pooling.max-connection-per-route:50}")
     private val maxConnectionPerRoute: Int = 50
 
     @Bean
@@ -40,7 +40,7 @@ class RestTemplateConfig {
             .also {
                 logger.debug(
                     """
-                    RestTemplate Pooling Connection Config:
+                    Http Pooling Connection Config:
                         - Max-Connections-In-Pool[{}]
                         - Max-Connections-Per-Route[{}]
                     """.trimIndent(),
@@ -54,22 +54,19 @@ class RestTemplateConfig {
         RequestConfig
             .custom()
             .apply {
-                setConnectionRequestTimeout(connectionRequestTimeout)
-                setConnectTimeout(connectTimeout)
-                setSocketTimeout(socketTimeout)
+                setConnectionRequestTimeout(connectionRequestTimeoutSec, TimeUnit.SECONDS)
+                setResponseTimeout(responseTimeoutSec, TimeUnit.SECONDS)
             }
             .build()
             .also {
-                logger.trace(
+                logger.debug(
                     """
-                    RestTemplate Request Config:
-                        - Connection-Request-Timeout[{}ms]
-                        - Connect-Timeout[{}ms]
-                        - Socket-Timeout[{}ms]
+                    Http Request Config:
+                        - Connection-Request-Timeout[{}]
+                        - Response-Timeout[{}]
                     """.trimIndent(),
                     it.connectionRequestTimeout,
-                    it.connectTimeout,
-                    it.socketTimeout
+                    it.responseTimeout,
                 )
             }
 
@@ -87,7 +84,9 @@ class RestTemplateConfig {
     @Bean
     fun clientHttpRequestFactory(httpClient: HttpClient): HttpComponentsClientHttpRequestFactory =
         HttpComponentsClientHttpRequestFactory()
-            .apply { setHttpClient(httpClient) }
+            .apply {
+                setHttpClient(httpClient)
+            }
 
     @Bean
     fun restTemplate(clientHttpRequestFactory: HttpComponentsClientHttpRequestFactory): RestTemplate =
