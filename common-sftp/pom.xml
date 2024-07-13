@@ -13,7 +13,7 @@
     </parent>
 
     <groupId>com.kw</groupId>
-    <artifactId>kotlin.spring-boot--common-sftp</artifactId>
+    <artifactId>kotlin.spring-boot--starter-common-sftp</artifactId>
     <version>0.0.3-SNAPSHOT</version>
     <name>common-sftp</name>
     <description>Starter SFTP Library</description>
@@ -32,7 +32,7 @@
         <!-- COMMON LIBRARY -->
         <dependency>
             <groupId>com.kw</groupId>
-            <artifactId>kotlin.spring-boot--common</artifactId>
+            <artifactId>kotlin-spring-boot--starter-common</artifactId>
             <version>${common-starter.version}</version>
             <scope>provided</scope>
         </dependency>

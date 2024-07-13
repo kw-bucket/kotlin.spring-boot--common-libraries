@@ -13,7 +13,7 @@
     </parent>
 
     <groupId>com.kw</groupId>
-    <artifactId>kotlin.spring-boot--common-mail</artifactId>
+    <artifactId>kotlin-spring-boot--starter-common-mail</artifactId>
     <version>1.1.2-SNAPSHOT</version>
     <name>common-mail</name>
     <description>Common Mail Library</description>
@@ -30,7 +30,7 @@
         <!-- COMMON LIBRARY -->
         <dependency>
             <groupId>com.kw</groupId>
-            <artifactId>kotlin.spring-boot--common</artifactId>
+            <artifactId>kotlin-spring-boot--starter-common</artifactId>
             <version>${common-starter.version}</version>
             <scope>provided</scope>
         </dependency>
