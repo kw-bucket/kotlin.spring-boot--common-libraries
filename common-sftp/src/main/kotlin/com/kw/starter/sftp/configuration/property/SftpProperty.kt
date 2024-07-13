@@ -1,6 +1,6 @@
-package com.kw.common.sftp.config.properties
+package com.kw.starter.sftp.configuration.property
 
-data class SftpProperties(
+data class SftpProperty(
     val host: String,
     val port: Int = 22,
     val username: String,
