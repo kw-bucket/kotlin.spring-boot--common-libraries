@@ -1,4 +1,4 @@
-package com.kw.common.sftp.dto
+package com.kw.starter.sftp.dto
 
 import java.nio.file.Path
 
@@ -8,6 +8,7 @@ data class SftpRequest(
     val remotePath: Path,
 ) {
     enum class Command {
-        Upload, Download,
+        Upload,
+        Download,
     }
 }
