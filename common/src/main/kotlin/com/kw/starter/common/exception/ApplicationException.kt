@@ -1,9 +1,9 @@
 package com.kw.starter.common.exception
 
-import com.kw.common.starter.constant.ApiOutputStatus
+import com.kw.starter.common.constant.ApiOutputStatus
 import org.springframework.http.HttpStatus
 
-class AppException(
+class ApplicationException(
     val httpStatus: HttpStatus,
     val apiOutputStatus: ApiOutputStatus,
     val description: String? = null,

@@ -1,6 +1,6 @@
 package com.kw.starter.common.log.httpintercept
 
-import com.kw.common.starter.service.log.HttpLoggingService
+import com.kw.starter.common.service.log.HttpLoggingService
 import org.springframework.core.MethodParameter
 import org.springframework.http.MediaType
 import org.springframework.http.converter.HttpMessageConverter

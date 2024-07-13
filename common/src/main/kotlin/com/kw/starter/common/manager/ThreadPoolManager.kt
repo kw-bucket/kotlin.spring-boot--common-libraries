@@ -1,7 +1,7 @@
 package com.kw.starter.common.manager
 
-import com.kw.common.starter.config.properties.ThreadPoolProperty
-import com.kw.common.starter.decorator.MdcTaskDecorator
+import com.kw.starter.common.configuration.application.ThreadPoolConfig
+import com.kw.starter.common.decorator.MdcTaskDecorator
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
@@ -13,15 +13,15 @@ import kotlin.time.Duration.Companion.seconds
 object ThreadPoolManager {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    fun initThreadPoolTaskExecutor(properties: ThreadPoolProperty): ThreadPoolTaskExecutor =
+    fun initThreadPoolTaskExecutor(config: ThreadPoolConfig): ThreadPoolTaskExecutor =
         ThreadPoolTaskExecutor()
             .apply {
-                setThreadNamePrefix(properties.threadNamePrefix)
+                setThreadNamePrefix(config.threadNamePrefix)
 
-                queueCapacity = properties.capacity
-                keepAliveSeconds = properties.keepAliveTimeSec
-                corePoolSize = properties.pooling.core
-                maxPoolSize = properties.pooling.max
+                queueCapacity = config.capacity
+                keepAliveSeconds = config.keepAliveTimeSec
+                corePoolSize = config.pooling.core
+                maxPoolSize = config.pooling.max
 
                 setTaskDecorator(MdcTaskDecorator())
                 afterPropertiesSet()
@@ -36,7 +36,7 @@ object ThreadPoolManager {
                         - Max-Pool-Size[{}]
                     """.trimIndent(),
                     it.threadNamePrefix,
-                    properties.capacity,
+                    config.capacity,
                     it.corePoolSize,
                     it.maxPoolSize,
                 )

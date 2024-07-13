@@ -1,7 +1,7 @@
 package com.kw.starter.common.http.filter
 
-import com.kw.common.starter.http.constant.HeaderFields
-import com.kw.common.starter.http.wrapper.HttpRequestWrapper
+import com.kw.starter.common.http.constant.HeaderFields
+import com.kw.starter.common.http.wrapper.ApplicationHttpRequestWrapper
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -28,7 +28,7 @@ class HttpRequestFilter : OncePerRequestFilter() {
             return
         }
 
-        val requestHeaderWrapper = HttpRequestWrapper(request)
+        val requestHeaderWrapper = ApplicationHttpRequestWrapper(request)
 
         val xCorrelationId = HeaderFields.X_CORRELATION_ID
 

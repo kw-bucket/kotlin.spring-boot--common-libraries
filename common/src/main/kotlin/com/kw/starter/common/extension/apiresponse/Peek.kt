@@ -1,7 +1,7 @@
 package com.kw.starter.common.extension.apiresponse
 
-import com.kw.common.starter.dto.ApiOutput
-import com.kw.common.starter.service.api.ApiResponse
+import com.kw.starter.common.dto.ApiOutput
+import com.kw.starter.common.service.api.ApiResponse
 
 fun <T : Any> ApiResponse<ApiOutput<T>>.peekOutputStatus(): String {
     val code = this.body?.status?.code ?: this.httpStatus.value()

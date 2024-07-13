@@ -1,10 +1,10 @@
 package com.kw.starter.common.controller.advice
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
-import com.kw.common.starter.constant.ApiOutputStatus
-import com.kw.common.starter.dto.ApiOutput
-import com.kw.common.starter.exception.AppException
-import com.kw.common.starter.extension.toSnakeCase
+import com.kw.starter.common.constant.ApiOutputStatus
+import com.kw.starter.common.dto.ApiOutput
+import com.kw.starter.common.exception.ApplicationException
+import com.kw.starter.common.extension.string.toSnakeCase
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 
 @ControllerAdvice
-class AppControllerAdvice {
+class ApplicationControllerAdvice {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     @Value("\${starter.application-code:APP}")
@@ -64,8 +64,8 @@ class AppControllerAdvice {
         return buildResponse(HttpStatus.BAD_REQUEST, ExceptionStatus.E4000, description)
     }
 
-    @ExceptionHandler(AppException::class)
-    fun handleAppException(ex: AppException): ResponseEntity<ApiOutput<Nothing>> =
+    @ExceptionHandler(ApplicationException::class)
+    fun handleAppException(ex: ApplicationException): ResponseEntity<ApiOutput<Nothing>> =
         buildResponse(ex.httpStatus, ex.apiOutputStatus, ex.description)
 
     private fun buildResponse(

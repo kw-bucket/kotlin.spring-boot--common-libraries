@@ -1,6 +1,6 @@
 package com.kw.starter.common.log.config
 
-import com.kw.common.starter.log.httpintercept.LogInterceptor
+import com.kw.starter.common.log.httpintercept.LogInterceptor
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer

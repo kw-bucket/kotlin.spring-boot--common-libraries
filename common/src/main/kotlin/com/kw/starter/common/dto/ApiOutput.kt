@@ -3,7 +3,7 @@ package com.kw.starter.common.dto
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
-import com.kw.common.starter.constant.ApiOutputStatus
+import com.kw.starter.common.constant.ApiOutputStatus
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -40,8 +40,8 @@ data class ApiOutput<T : Any>(
     }
 
     data class Status(
-        val code: String? = null,
-        val message: String? = null,
+        val code: String,
+        val message: String,
         val description: String? = null,
     )
 }

@@ -1,8 +1,8 @@
 package com.kw.starter.common.log.httpintercept
 
-import com.kw.common.starter.http.constant.HeaderFields
-import com.kw.common.starter.log.constant.LogbackFields
-import com.kw.common.starter.service.log.HttpLoggingService
+import com.kw.starter.common.http.constant.HeaderFields
+import com.kw.starter.common.log.constant.LogbackFields
+import com.kw.starter.common.service.log.HttpLoggingService
 import jakarta.servlet.DispatcherType
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

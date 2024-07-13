@@ -1,4 +1,4 @@
-package com.kw.starter.common.config
+package com.kw.starter.common.configuration.resttemplate
 
 import org.apache.hc.client5.http.classic.HttpClient
 import org.apache.hc.client5.http.config.RequestConfig
