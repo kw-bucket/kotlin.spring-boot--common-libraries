@@ -1,4 +1,4 @@
-package com.kw.common.s3.dto.upload
+package com.kw.starter.s3.dto.upload
 
 import java.io.File
 
