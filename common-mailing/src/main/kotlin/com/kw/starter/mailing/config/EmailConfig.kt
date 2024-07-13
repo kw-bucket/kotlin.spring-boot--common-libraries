@@ -1,6 +1,6 @@
-package com.kw.common.mail.config.properties
+package com.kw.starter.mailing.config
 
-data class EmailProperties(
+data class EmailConfig(
     val from: String? = null,
     val to: String? = null,
     val cc: String? = null,
