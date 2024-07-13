@@ -11,7 +11,7 @@
 
     <modules>
         <module>common</module>
-        <module>common-mail</module>
+        <module>common-mailing</module>
         <module>common-s3</module>
         <module>common-sftp</module>
     </modules>
