@@ -1,4 +1,4 @@
-package com.kw.common.s3.config
+package com.kw.starter.s3.configuration.amazons3
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider
 import com.amazonaws.auth.BasicAWSCredentials
@@ -12,8 +12,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class S3Config {
-
+class AmazonS3Config {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     @Value("\${cloud.aws.credentials.access-key:#{null}}")
@@ -27,22 +26,29 @@ class S3Config {
 
     @Bean
     fun s3Client(): AmazonS3 =
-        Triple(region, awsAccessKey, awsSecretKey)
-            .also {
-                logger.debug(
-                    """
-                    AWS S3 Configuration:
-                        - Region[{}]
-                        - Access Key [{}]
-                        - Secret Key [{}]
-                    """.trimIndent(),
-                    region, awsAccessKey?.let { "Shhh!" }, awsSecretKey?.let { "Shhh!" },
-                )
-            }
-            .takeIf { !it.first.isNullOrBlank() && !it.second.isNullOrBlank() && !it.third.isNullOrBlank() }
-            ?.let { staticS3Client(region!!, awsAccessKey!!, awsSecretKey!!) } ?: defaultS3Client()
+        Triple(region, awsAccessKey, awsSecretKey).also {
+            logger.debug(
+                """
+                AWS S3 Configuration:
+                    - Region[{}]
+                    - Access Key [{}]
+                    - Secret Key [{}]
+                """.trimIndent(),
+                region,
+                awsAccessKey?.let { "Shhh!" },
+                awsSecretKey?.let { "Shhh!" },
+            )
+        }.takeIf {
+            !it.first.isNullOrBlank() && !it.second.isNullOrBlank() && !it.third.isNullOrBlank()
+        }?.let {
+            staticS3Client(region!!, awsAccessKey!!, awsSecretKey!!)
+        } ?: defaultS3Client()
 
-    fun staticS3Client(region: String, awsAccessKey: String, awsSecretKey: String): AmazonS3 =
+    fun staticS3Client(
+        region: String,
+        awsAccessKey: String,
+        awsSecretKey: String,
+    ): AmazonS3 =
         AmazonS3ClientBuilder.standard()
             .withRegion(region)
             .withCredentials(AWSStaticCredentialsProvider(BasicAWSCredentials(awsAccessKey, awsSecretKey)))
