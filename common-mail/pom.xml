@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.4</version>
+        <version>3.3.1</version>
         <relativePath/>
     </parent>
 
@@ -30,7 +30,7 @@
         <!-- COMMON LIBRARY -->
         <dependency>
             <groupId>com.kw</groupId>
-            <artifactId>spring-boot-kotlin--common-starter</artifactId>
+            <artifactId>spring-boot-kotlin--common</artifactId>
             <version>${common-starter.version}</version>
             <scope>provided</scope>
         </dependency>

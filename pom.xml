@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>common-starter</module>
+        <module>common</module>
         <module>common-mail</module>
         <module>common-s3</module>
         <module>common-sftp</module>

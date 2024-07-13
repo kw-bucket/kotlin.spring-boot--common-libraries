@@ -30,7 +30,7 @@
         <!-- COMMON LIBRARY -->
         <dependency>
             <groupId>com.kw</groupId>
-            <artifactId>spring-boot-kotlin--common-starter</artifactId>
+            <artifactId>spring-boot-kotlin--common</artifactId>
             <version>${common-starter.version}</version>
             <scope>provided</scope>
         </dependency>
